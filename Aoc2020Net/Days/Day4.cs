@@ -89,9 +89,7 @@ namespace Aoc2020Net.Days
 
         private IEnumerable<Passport> GetInputPassports()
         {
-            var lines =
-                string.Join(" ", InputData.GetInputLines().Select(l => string.IsNullOrWhiteSpace(l) ? "$$" : l))
-                .Split("$$", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+            var lines = InputData.GetInputGroupsAsJoinedStrings();
 
             var requiredFieldsNames = typeof(Passport).GetConstructors().First()
                 .GetParameters()

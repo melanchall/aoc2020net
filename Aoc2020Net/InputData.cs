@@ -51,5 +51,9 @@ namespace Aoc2020Net
 
             return (grid, width, height);
         }
+
+        public string[] GetInputGroupsAsJoinedStrings() =>
+            string.Join(" ", GetInputLines().Select(l => string.IsNullOrWhiteSpace(l) ? "$$" : l))
+                .Split("$$", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
     }
 }
