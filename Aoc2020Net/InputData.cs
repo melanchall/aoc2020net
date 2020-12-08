@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
+using Aoc2020Net.Utilities;
 
 namespace Aoc2020Net
 {
@@ -27,9 +27,9 @@ namespace Aoc2020Net
         public (T[,] Grid, int Width, int Height) GetInputGrid<T>()
             where T : Enum
         {
-            var rules = typeof(T)
-                .GetFields(BindingFlags.Public | BindingFlags.Static)
-                .ToDictionary(f => f.GetCustomAttribute<GridSymbolAttribute>().Symbol, f => (T)f.GetValue(null));
+            var rules = ReflectionUtilities
+                .GetAttributedEnumValues<T, GridSymbolAttribute>()
+                .ToDictionary(v => v.Attribute.Symbol, v => v.Value);
 
             var lines = GetInputLines();
             var width = lines.First().Length;
