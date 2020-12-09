@@ -24,6 +24,10 @@ namespace Aoc2020Net
             .Select(line => int.Parse(line))
             .ToArray();
 
+        public long[] GetInputInt64NumbersFromLines() => GetInputLines()
+            .Select(line => long.Parse(line))
+            .ToArray();
+
         public (T[,] Grid, int Width, int Height) GetInputGrid<T>()
             where T : Enum
         {

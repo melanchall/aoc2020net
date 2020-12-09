@@ -51,7 +51,8 @@ namespace Aoc2020Net.Tests
             if (!string.IsNullOrWhiteSpace(input))
                 day.Input = input;
 
-            day.Parameters = parameters;
+            if (parameters != null)
+                day.Parameters = parameters;
 
             return part1 ? day.SolvePart1() : day.SolvePart2();
         }
