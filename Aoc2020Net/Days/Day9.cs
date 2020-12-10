@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Aoc2020Net.Utilities;
 
 namespace Aoc2020Net.Days
 {
@@ -44,15 +45,9 @@ namespace Aoc2020Net.Days
             for (var n = PreambleSize; n < numbers.Length; n++)
             {
                 var num = numbers[n];
-                var matchPreamble = false;
-
-                for (var i = n - PreambleSize; i < n + PreambleSize; i++)
-                {
-                    for (var j = i + 1; j < n + PreambleSize; j++)
-                    {
-                        matchPreamble |= num == (numbers[i] + numbers[j]);
-                    }
-                }
+                var matchPreamble = DataProvider
+                    .GetIndicesPairs(n - PreambleSize, n + PreambleSize - 1)
+                    .Aggregate(false, (result, indices) => result || (num == (numbers[indices.I] + numbers[indices.J])));
 
                 if (!matchPreamble)
                     return num;
