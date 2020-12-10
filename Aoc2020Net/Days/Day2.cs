@@ -14,7 +14,7 @@ namespace Aoc2020Net.Days
 
         public override object SolvePart1() => GetInputRecords().Count(record =>
         {
-            var count = record.Password.Count(c => c == record.Char);
+            var count = record.Password.CountValue(record.Char);
             return count >= record.First && count <= record.Second;
         });
 
