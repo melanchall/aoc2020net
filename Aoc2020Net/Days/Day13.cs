@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Aoc2020Net.Utilities;
 
 namespace Aoc2020Net.Days
 {
@@ -41,7 +42,7 @@ namespace Aoc2020Net.Days
             var ams = cms
                 .Select(cm => new
                 {
-                    A = cms.Where(xxx => xxx.M != cm.M).Aggregate(1L, (a, b) => a * b.M),
+                    A = cms.Where(xxx => xxx.M != cm.M).Product(cm => cm.M),
                     M = cm.M
                 })
                 .ToArray();
@@ -55,7 +56,7 @@ namespace Aoc2020Net.Days
 
             return Enumerable.Range(0, cms.Length)
                 .Select(i => ams[i].A * xs[i] * cms[i].C)
-                .Sum() % cms.Aggregate(1L, (m, cm) => m * cm.M);
+                .Sum() % cms.Product(cm => cm.M);
         }
 
         private Schedule GetInputSchedule()

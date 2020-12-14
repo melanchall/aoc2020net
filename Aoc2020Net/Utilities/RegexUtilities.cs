@@ -9,6 +9,10 @@ namespace Aoc2020Net.Utilities
 
         public static int GetInt32Group(this Match match, string groupName, int captureIndex = 0) => int.Parse(match.Groups[groupName].Captures[captureIndex].Value);
 
+        public static long GetInt64Group(this Match match, int groupIndex, int captureIndex = 0) => long.Parse(match.Groups[groupIndex].Captures[captureIndex].Value);
+
+        public static long GetInt64Group(this Match match, string groupName, int captureIndex = 0) => long.Parse(match.Groups[groupName].Captures[captureIndex].Value);
+
         public static string GetStringGroup(this Match match, int groupIndex, int captureIndex = 0) => match.Groups[groupIndex].Captures[captureIndex].Value;
 
         public static string GetStringGroup(this Match match, string groupName, int captureIndex = 0) => match.Groups[groupName].Captures[captureIndex].Value;
