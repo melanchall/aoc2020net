@@ -21,11 +21,16 @@ namespace Aoc2020Net
             .ToArray();
 
         public int[] GetInputInt32NumbersFromLines() => GetInputLines()
-            .Select(line => int.Parse(line))
+            .Select(int.Parse)
+            .ToArray();
+
+        public int[] GetCommaSeparatedInt32Numbers() => _input
+            .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .Select(int.Parse)
             .ToArray();
 
         public long[] GetInputInt64NumbersFromLines() => GetInputLines()
-            .Select(line => long.Parse(line))
+            .Select(long.Parse)
             .ToArray();
 
         public (T[,] Grid, int Width, int Height) GetInputGrid<T>()
