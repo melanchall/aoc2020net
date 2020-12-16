@@ -11,5 +11,7 @@ namespace Aoc2020Net.Utilities
         public static long Product(this IEnumerable<long> source) => source.Aggregate((x, y) => x * y);
 
         public static long Product<T>(this IEnumerable<T> source, Func<T, long> selector) => source.Aggregate(1L, (x, y) => x * selector(y));
+
+        public static long Product(this IEnumerable<int> source) => source.Aggregate(1L, (x, y) => x * y);
     }
 }

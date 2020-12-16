@@ -64,5 +64,11 @@ namespace Aoc2020Net
         public string[] GetInputGroupsAsJoinedStrings() =>
             string.Join(" ", GetInputLines().Select(l => string.IsNullOrWhiteSpace(l) ? "$$" : l))
                 .Split("$$", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+
+        public string[][] GetInputLinesGroups() =>
+            string.Join("%%", GetInputLines().Select(l => string.IsNullOrWhiteSpace(l) ? "$$" : l))
+                .Split("$$", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+                .Select(g => g.Split("%%", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries))
+                .ToArray();
     }
 }

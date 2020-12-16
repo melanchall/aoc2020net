@@ -18,15 +18,15 @@ namespace Aoc2020Net.Days
                 .ToDictionary(n => n.Number, n => (LastTurn: n.Turn, PreviousTurn: UndefinedTurn));
             var lastNumber = numbers.Last();
 
-            for (var i = numbers.Length + 1; i <= turnNumber; i++)
+            for (var t = numbers.Length + 1; t <= turnNumber; t++)
             {
-                lastNumber = !numbersTurns.TryGetValue(lastNumber, out var turns) || turns.PreviousTurn < 0
+                lastNumber = !numbersTurns.TryGetValue(lastNumber, out var turns) || turns.PreviousTurn == UndefinedTurn
                     ? 0
                     : turns.LastTurn - turns.PreviousTurn;
 
                 numbersTurns[lastNumber] = !numbersTurns.TryGetValue(lastNumber, out turns)
-                    ? (i, UndefinedTurn)
-                    : (i, turns.LastTurn);
+                    ? (t, UndefinedTurn)
+                    : (t, turns.LastTurn);
             }
 
             return lastNumber;
