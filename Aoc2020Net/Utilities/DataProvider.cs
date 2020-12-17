@@ -14,5 +14,16 @@ namespace Aoc2020Net.Utilities
                 }
             }
         }
+
+        public static IEnumerable<(int X, int Y)> GetGridCoordinates(int width, int height)
+        {
+            for (var x = 0; x < width; x++)
+            {
+                for (var y = 0; y < height; y++)
+                {
+                    yield return (x, y);
+                }
+            }
+        }
     }
 }
