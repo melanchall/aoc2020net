@@ -21,3 +21,4 @@
 * [Day 15](https://github.com/melanchall/aoc2020net/blob/main/Aoc2020Net/Days/Day15.cs)
 * [Day 16](https://github.com/melanchall/aoc2020net/blob/main/Aoc2020Net/Days/Day16.cs)
 * [Day 17](https://github.com/melanchall/aoc2020net/blob/main/Aoc2020Net/Days/Day17.cs)
+* [Day 18](https://github.com/melanchall/aoc2020net/blob/main/Aoc2020Net/Days/Day18.cs)
