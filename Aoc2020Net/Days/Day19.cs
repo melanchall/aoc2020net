@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Aoc2020Net.Utilities;
@@ -54,20 +53,10 @@ namespace Aoc2020Net.Days
                 return string.Empty;
 
             var rule = rules[ruleNumber];
-            
-            if (char.IsLetter(rule[0]))
-                pattern = rule;
-            else
-            {
-                var subPatterns = rule
-                    .Split("|", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-                    .Select(o => string.Join(
-                        string.Empty,
-                        o.Split(" ").Select(rn => GetRegexPattern(int.Parse(rn), rules, patterns, maxRecursionDepth, recursionCounters))));
-                pattern = $"({string.Join("|", subPatterns)})";
-            }
-
-            return patterns[ruleNumber] = pattern;
+            return patterns[ruleNumber] = char.IsLetter(rule[0])
+                ? rule
+                : "(" + Regex.Replace(rule, @"\d+", m => GetRegexPattern(int.Parse(m.Value), rules, patterns, maxRecursionDepth, recursionCounters))
+                             .Replace(" ", string.Empty) + ")";
         }
     }
 }
