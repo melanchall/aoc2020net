@@ -1,17 +1,73 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using Aoc2020Net.Utilities;
 
 namespace Aoc2020Net.Days
 {
     internal sealed class Day19 : Day
     {
-        public override object SolvePart1()
+        public override object SolvePart1() => CountValidMessages();
+
+        public override object SolvePart2() => CountValidMessages((8, "42 | 42 8"), (11, "42 31 | 42 11 31"));
+
+        private int CountValidMessages(params (int RuleNumber, string Rule)[] rulesOverridings)
         {
-            throw new NotImplementedException();
+            var linesGroups = InputData.GetInputLinesGroups();
+            var rulesLines = linesGroups[0];
+            var messagesLines = linesGroups[1];
+
+            var ruleRegex = new Regex(@"(\d+): (.+)");
+            var rules = rulesLines
+                .Select(line => ruleRegex.Match(line))
+                .ToDictionary(m => m.GetInt32Group(1), m => m.GetStringGroup(2).Trim('"'));
+
+            foreach (var (ruleNumber, rule) in rulesOverridings)
+            {
+                rules[ruleNumber] = rule;
+            }
+
+            var regex = new Regex($"^{GetRegexPattern(0, rules, messagesLines.Max(l => l.Length))}$");
+            return messagesLines.Count(m => regex.IsMatch(m));
         }
 
-        public override object SolvePart2()
+        private string GetRegexPattern(int ruleNumber, Dictionary<int, string> rules, int maxRecursionDepth) =>
+            GetRegexPattern(
+                ruleNumber,
+                rules,
+                new Dictionary<int, string>(),
+                maxRecursionDepth,
+                rules.ToDictionary(r => r.Key, _ => 0));
+
+        private static string GetRegexPattern(
+            int ruleNumber,
+            Dictionary<int, string> rules,
+            Dictionary<int, string> patterns,
+            int maxRecursionDepth,
+            Dictionary<int, int> recursionCounters)
         {
-            throw new NotImplementedException();
+            if (patterns.TryGetValue(ruleNumber, out var pattern))
+                return pattern;
+
+            if (++recursionCounters[ruleNumber] > maxRecursionDepth)
+                return string.Empty;
+
+            var rule = rules[ruleNumber];
+            
+            if (char.IsLetter(rule[0]))
+                pattern = rule;
+            else
+            {
+                var subPatterns = rule
+                    .Split("|", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                    .Select(o => string.Join(
+                        string.Empty,
+                        o.Split(" ").Select(rn => GetRegexPattern(int.Parse(rn), rules, patterns, maxRecursionDepth, recursionCounters))));
+                pattern = $"({string.Join("|", subPatterns)})";
+            }
+
+            return patterns[ruleNumber] = pattern;
         }
     }
 }
