@@ -33,14 +33,25 @@ namespace Aoc2020Net
             .Select(long.Parse)
             .ToArray();
 
-        public (T[,] Grid, int Width, int Height) GetInputGrid<T>()
+        public (T[,] Grid, int Width, int Height) GetInputGrid<T>() where T : Enum => GetGrid<T>(GetInputLines());
+
+        public string[] GetInputGroupsAsJoinedStrings() =>
+            string.Join(" ", GetInputLines().Select(l => string.IsNullOrWhiteSpace(l) ? "$$" : l))
+                .Split("$$", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+
+        public string[][] GetInputLinesGroups() =>
+            string.Join("%%", GetInputLines().Select(l => string.IsNullOrWhiteSpace(l) ? "$$" : l))
+                .Split("$$", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+                .Select(g => g.Split("%%", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries))
+                .ToArray();
+
+        public static (T[,] Grid, int Width, int Height) GetGrid<T>(string[] lines)
             where T : Enum
         {
             var rules = ReflectionUtilities
                 .GetAttributedEnumValues<T, GridSymbolAttribute>()
                 .ToDictionary(v => v.Attribute.Symbol, v => v.Value);
 
-            var lines = GetInputLines();
             var width = lines.First().Length;
             var height = lines.Length;
 
@@ -60,15 +71,5 @@ namespace Aoc2020Net
 
             return (grid, width, height);
         }
-
-        public string[] GetInputGroupsAsJoinedStrings() =>
-            string.Join(" ", GetInputLines().Select(l => string.IsNullOrWhiteSpace(l) ? "$$" : l))
-                .Split("$$", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-
-        public string[][] GetInputLinesGroups() =>
-            string.Join("%%", GetInputLines().Select(l => string.IsNullOrWhiteSpace(l) ? "$$" : l))
-                .Split("$$", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
-                .Select(g => g.Split("%%", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries))
-                .ToArray();
     }
 }

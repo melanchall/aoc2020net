@@ -8,6 +8,8 @@ namespace Aoc2020Net.Utilities
     {
         public static int CountValue<T>(this IEnumerable<T> source, T value) => source.Count(e => e.Equals(value));
 
+        public static int CountValue<T>(this T[,] source, T value) => source.OfType<T>().Count(e => e.Equals(value));
+
         public static long Product(this IEnumerable<long> source) => source.Aggregate((x, y) => x * y);
 
         public static long Product<T>(this IEnumerable<T> source, Func<T, long> selector) => source.Aggregate(1L, (x, y) => x * selector(y));
