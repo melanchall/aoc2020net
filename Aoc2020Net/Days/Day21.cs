@@ -8,20 +8,21 @@ namespace Aoc2020Net.Days
 {
     internal sealed class Day21 : Day
     {
-        private record Food(string[] Ingridients, string[] Allergens);
+        private record Food(string[] Ingredients, string[] Allergens);
+        private record IngredientsInfo(string[] SafeIngredients, Dictionary<string, string> IngredientsToAllergens);
 
         public override object SolvePart1()
         {
             var inputData = GetInputFoods();
-            var (safeIngridients, _) = GetIngridientsInfo(inputData);
-            return inputData.Sum(d => d.Ingridients.Count(i => safeIngridients.Contains(i)));
+            var (safeIngredients, _) = GetIngredientsInfo(inputData);
+            return inputData.Sum(d => d.Ingredients.Count(i => safeIngredients.Contains(i)));
         }
 
         public override object SolvePart2()
         {
             var inputData = GetInputFoods();
-            var (_, ingridientsToAllergens) = GetIngridientsInfo(inputData);
-            return string.Join(",", ingridientsToAllergens.OrderBy(i => i.Value).Select(i => i.Key));
+            var (_, ingredientsToAllergens) = GetIngredientsInfo(inputData);
+            return string.Join(",", ingredientsToAllergens.OrderBy(i => i.Value).Select(i => i.Key));
         }
 
         private Food[] GetInputFoods()
@@ -36,44 +37,49 @@ namespace Aoc2020Net.Days
                 .ToArray();
         }
 
-        private static (string[] SafeIngridients, Dictionary<string, string> IngridientsToAllergens) GetIngridientsInfo(Food[] foods)
+        private static IngredientsInfo GetIngredientsInfo(Food[] foods)
         {
             var allergens = foods.SelectMany(f => f.Allergens).Distinct().ToList();
-            var ingridients = foods.SelectMany(i => i.Ingridients).Distinct().ToList();
+            var ingredients = foods.SelectMany(i => i.Ingredients).Distinct().ToList();
 
-            var ingridientsToAllergens = new Dictionary<string, string>();
+            var ingredientsToAllergens = new Dictionary<string, string>();
 
             while (allergens.Any())
             {
-                var allergensToIngridientsCounts = new Dictionary<string, Dictionary<string, int>>();
+                var allergensToIngredientsCounts = GetAllergensToIngredientsCounts(foods, allergens, ingredients);
 
-                foreach (var allergen in allergens)
-                {
-                    if (!allergensToIngridientsCounts.TryGetValue(allergen, out var ingridientsCounts))
-                        allergensToIngridientsCounts.Add(allergen, ingridientsCounts = new Dictionary<string, int>());
-
-                    foreach (var food in foods.Where(f => f.Allergens.Contains(allergen)))
-                    {
-                        foreach (var ingridient in food.Ingridients.Where(i => ingridients.Contains(i)))
-                        {
-                            if (!ingridientsCounts.ContainsKey(ingridient))
-                                ingridientsCounts.Add(ingridient, 0);
-
-                            ingridientsCounts[ingridient]++;
-                        }
-                    }
-                }
-
-                var allergenAnalyzed = allergensToIngridientsCounts.First(a => a.Value.Values.Count(c => c == a.Value.Values.Max()) == 1);
-                var ingridientAnalyzed = allergenAnalyzed.Value.OrderByDescending(i => i.Value).First();
-
+                var allergenAnalyzed = allergensToIngredientsCounts.First(a => a.Value.Values.Count(c => c == a.Value.Values.Max()) == 1);
                 allergens.Remove(allergenAnalyzed.Key);
-                ingridients.Remove(ingridientAnalyzed.Key);
 
-                ingridientsToAllergens[ingridientAnalyzed.Key] = allergenAnalyzed.Key;
+                var ingredientAnalyzed = allergenAnalyzed.Value.OrderByDescending(i => i.Value).First();
+                ingredients.Remove(ingredientAnalyzed.Key);
+
+                ingredientsToAllergens[ingredientAnalyzed.Key] = allergenAnalyzed.Key;
             }
 
-            return (ingridients.ToArray(), ingridientsToAllergens);
+            return new IngredientsInfo(ingredients.ToArray(), ingredientsToAllergens);
+        }
+
+        private static Dictionary<string, Dictionary<string, int>> GetAllergensToIngredientsCounts(Food[] foods, IEnumerable<string> allergens, IEnumerable<string> ingredients)
+        {
+            var allergensToIngredientsCounts = new Dictionary<string, Dictionary<string, int>>();
+
+            foreach (var allergen in allergens)
+            {
+                if (!allergensToIngredientsCounts.TryGetValue(allergen, out var ingredientsCounts))
+                    allergensToIngredientsCounts.Add(allergen, ingredientsCounts = new Dictionary<string, int>());
+
+                foreach (var food in foods.Where(f => f.Allergens.Contains(allergen)))
+                {
+                    foreach (var ingredient in food.Ingredients.Where(i => ingredients.Contains(i)))
+                    {
+                        ingredientsCounts.TryAdd(ingredient, 0);
+                        ingredientsCounts[ingredient]++;
+                    }
+                }
+            }
+
+            return allergensToIngredientsCounts;
         }
     }
 }
