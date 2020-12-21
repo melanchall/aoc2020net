@@ -1,6 +1,6 @@
 # AoC 2020 .NET
 
-.NET (C#) solutions of [Advent of Code 2020](https://adventofcode.com/2020).
+.NET (C#) solutions of [Advent of Code 2020](https://adventofcode.com/2020). **[42**:star:**]**
 
 ## Solutions
 
