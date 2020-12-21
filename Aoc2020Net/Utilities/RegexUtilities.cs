@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Aoc2020Net.Utilities
@@ -28,5 +29,7 @@ namespace Aoc2020Net.Utilities
         public static int GetGroupCapturesCount(this Match match, int groupIndex) => match.Groups[groupIndex].Captures.Count;
 
         public static int GetGroupCapturesCount(this Match match, string groupName) => match.Groups[groupName].Captures.Count;
+
+        public static IEnumerable<string> GetGroupStringCaptures(this Match match, int groupIndex) => match.Groups[groupIndex].Captures.Select(c => c.Value);
     }
 }
