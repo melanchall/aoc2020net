@@ -28,3 +28,4 @@
 |[20](https://github.com/melanchall/aoc2020net/blob/main/Aoc2020Net/Days/Day20.cs)|:star::star:|
 |[21](https://github.com/melanchall/aoc2020net/blob/main/Aoc2020Net/Days/Day21.cs)|:star::star:|
 |[22](https://github.com/melanchall/aoc2020net/blob/main/Aoc2020Net/Days/Day22.cs)|:star::star:|
+|[23](https://github.com/melanchall/aoc2020net/blob/main/Aoc2020Net/Days/Day23.cs)|:star::star:|
