@@ -29,5 +29,5 @@
 |[21](https://github.com/melanchall/aoc2020net/blob/main/Aoc2020Net/Days/Day21.cs)|:star::star:|
 |[22](https://github.com/melanchall/aoc2020net/blob/main/Aoc2020Net/Days/Day22.cs)|:star::star:|
 |[23](https://github.com/melanchall/aoc2020net/blob/main/Aoc2020Net/Days/Day23.cs)|:star::star:|
-|[24](https://github.com/melanchall/aoc2020net/blob/main/Aoc2020Net/Days/Day24.cs)||
+|[24](https://github.com/melanchall/aoc2020net/blob/main/Aoc2020Net/Days/Day24.cs)|:star::star:|
 |[25](https://github.com/melanchall/aoc2020net/blob/main/Aoc2020Net/Days/Day25.cs)||
